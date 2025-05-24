@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📰 Fake News Detector</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      height: 100%;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1c1c1c);
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      color: #00ffd5;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      resize: none;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      margin-top: 20px;
+      padding: 12px 30px;
+      background-color: #00ffd5;
+      color: #000;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #00ccaa;
+    }
+
+    .result {
+      margin-top: 30px;
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    .real {
+      color: #00ff80;
+    }
+
+    .fake {
+      color: #ff4c4c;
+    }
+
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #00ffd5;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📰 Fake News Detector</h1>
+    <form id="newsForm" action="/predict" method="post" onsubmit="showLoader()">
+      <textarea name="news" placeholder="Paste or type a news article here..."></textarea><br>
+      <input type="submit" value="Check">
+    </form>
+
+    <div class="loader" id="loader"></div>
+
+    {% if prediction and confidence is not none %}
+    <div class="result">
+      Result: {{ prediction }} {{ confidence }}
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    function showLoader() {
+      document.getElementById("loader").style.display = "block";
+    }
+  </script>
+</body>
+</html>
